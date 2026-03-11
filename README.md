@@ -6,131 +6,126 @@
 
 # Project Overview
 
-This project demonstrates the design and implementation of an **end-to-end cloud data engineering pipeline** using the **Olist E-commerce dataset**.
+This project demonstrates the implementation of an **end-to-end cloud data engineering pipeline** using the Olist E-commerce dataset. The pipeline ingests raw transactional data, stores it in a cloud data lake, processes it using distributed computing, and prepares analytics-ready datasets for business intelligence tools.
 
-The pipeline ingests raw transactional data, stores it in a **data lake**, processes it using distributed computing, and prepares analytics-ready datasets for business intelligence tools.
+The system is built using **Azure Data Engineering services** and follows modern data platform principles including **Medallion Architecture, metadata-driven pipelines, and parameterized ingestion pipelines**.
 
-The architecture follows a **modern data engineering workflow using Azure services**, enabling scalable data ingestion, transformation, storage, and analytics.
-
-This project simulates a **real-world enterprise data platform** used by e-commerce companies to analyze sales, customer behavior, and operational performance.
+The objective is to simulate a **real-world enterprise data pipeline** capable of handling large volumes of e-commerce data and enabling analytical insights.
 
 ---
 
 # Problem Statement
 
-E-commerce platforms generate massive amounts of transactional data such as orders, payments, customers, sellers, and product information. This data often exists in multiple systems and formats, making it difficult for analysts and business teams to derive meaningful insights.
+E-commerce platforms generate large volumes of data such as customer information, orders, product details, seller data, payments, and reviews. These datasets are typically stored in multiple systems and formats, making it difficult for organizations to perform analytics efficiently.
 
-The objective of this project is to design and implement a **scalable data pipeline** that:
+The goal of this project is to design and implement a **scalable data pipeline** that:
 
-• Ingests raw e-commerce datasets from external sources
+• Ingests raw datasets from external sources
 • Stores the data in a centralized cloud data lake
-• Cleans and transforms the data using distributed processing
-• Creates structured datasets optimized for analytics
-• Enables business intelligence dashboards and reporting
+• Transforms raw data into structured datasets
+• Builds an analytical data model for reporting
+• Enables business intelligence dashboards for insights
 
-The pipeline demonstrates how raw operational data can be transformed into **decision-ready analytical data**.
+The final pipeline enables **efficient analytical queries for business decision making**.
 
 ---
 
 # Architecture Diagram
 
-The following diagram illustrates the **end-to-end data pipeline architecture** used in this project.
+The following diagram illustrates the **end-to-end architecture of the data pipeline**.
+
 ![Architecture Diagram](Architecture%20Diagram.png)
 
 ---
 
 # Pipeline Explanation
 
-The data pipeline is composed of several stages that transform raw data into analytics-ready datasets.
+The pipeline consists of multiple stages responsible for ingesting, processing, and analyzing data.
 
-### 1. Data Sources
+### 1 Data Sources
 
-The pipeline begins with raw datasets obtained from:
+The pipeline ingests datasets from:
 
 • GitHub hosted datasets
 • SQL tables
 
-These sources contain e-commerce transaction data including customers, orders, products, sellers, payments, and reviews.
+These datasets include information related to customers, orders, products, sellers, payments, and reviews.
 
 ---
 
-### 2. Data Ingestion (Azure Data Factory)
+### 2 Data Ingestion (Azure Data Factory)
 
 Azure Data Factory is used to orchestrate the **data ingestion pipelines**.
 
 Responsibilities include:
 
-• Extracting data from source systems
+• Extracting datasets from source systems
 • Automating ingestion workflows
-• Loading raw datasets into Azure Data Lake Storage
+• Loading datasets into Azure Data Lake Storage
 
-This stage ensures reliable and repeatable data ingestion.
+The ingestion pipelines are designed to be **parameterized and metadata-driven** to handle multiple datasets dynamically.
 
 ---
 
-### 3. Raw Data Storage (ADLS Gen2)
+### 3 Raw Data Storage (ADLS Gen2)
 
-The ingested datasets are stored in **Azure Data Lake Storage Gen2**.
+The ingested data is stored in **Azure Data Lake Storage Gen2**.
 
-This layer stores the **raw unprocessed data** and acts as the foundation of the data lake.
+This layer stores **raw unprocessed data** and acts as the central storage system for the pipeline.
 
 Benefits include:
 
-• Scalable cloud storage
+• Scalable storage
 • Separation of compute and storage
-• Centralized data repository
+• Cost-efficient large data storage
 
 ---
 
-### 4. Data Transformation (Azure Databricks)
+### 4 Data Transformation (Azure Databricks)
 
-Azure Databricks is used to process and transform the data using **PySpark**.
+Azure Databricks processes the raw datasets using **PySpark**.
 
 Key transformations include:
 
-• Data cleaning and preprocessing
+• Data cleaning
 • Handling missing values
-• Joining multiple datasets
-• Standardizing schemas
+• Joining datasets
 • Feature engineering
+• Schema standardization
 
-Databricks enables distributed processing for handling large datasets efficiently.
+The transformed datasets are written back to the data lake.
 
 ---
 
-### 5. Data Enrichment (MongoDB)
+### 5 Data Enrichment (MongoDB)
 
 MongoDB is used as a **NoSQL enrichment layer**.
 
-Additional lookup tables or enrichment datasets can be stored in MongoDB and integrated during the transformation process.
-
-This demonstrates integration between **SQL and NoSQL data sources** in modern data pipelines.
+Additional enrichment tables can be stored in MongoDB and integrated during the transformation process to enhance analytical datasets.
 
 ---
 
-### 6. Processed Data Storage (ADLS Gen2)
+### 6 Processed Data Storage (ADLS Gen2)
 
-After transformation, the processed datasets are written back to **Azure Data Lake Storage**.
+After transformation, processed datasets are stored back into **Azure Data Lake Storage**.
 
-This layer contains **cleaned and structured data** ready for analytical querying.
+This layer contains **cleaned and structured datasets ready for analytical processing**.
 
 ---
 
-### 7. Data Warehousing (Azure Synapse Analytics)
+### 7 Data Warehousing (Azure Synapse Analytics)
 
-Azure Synapse Analytics is used as the **analytical query engine**.
+Azure Synapse Analytics is used to query transformed datasets stored in the data lake.
 
-External tables and views are created to query transformed datasets stored in the data lake.
+External tables and views are created to enable:
 
-This enables:
-
-• High-performance SQL analytics
-• Data warehouse style queries
+• Analytical SQL queries
 • Integration with BI tools
+• Efficient reporting
 
 ---
 
-### 8. Data Visualization
+### 8 Data Visualization
 
 The final datasets are connected to visualization tools such as:
 
@@ -138,27 +133,166 @@ The final datasets are connected to visualization tools such as:
 • Tableau
 • Microsoft Fabric
 
-These tools enable creation of dashboards and business insights such as:
+These tools allow analysts to create dashboards and derive business insights.
 
-• Sales trends
-• Customer purchasing patterns
-• Top performing products
-• Seller performance analysis
+---
+
+# Data Architecture (Medallion Architecture)
+
+The pipeline follows the **Medallion Architecture**, which organizes data into multiple layers for improved data quality and analytics.
+
+### Bronze Layer – Raw Data
+
+• Stores raw ingested datasets
+• Data is stored without transformation
+• Provides traceability and reproducibility
+
+---
+
+### Silver Layer – Cleaned Data
+
+• Data is cleaned and standardized
+• Data quality checks are performed
+• Multiple datasets are joined
+
+Examples of transformations:
+
+• Handling missing values
+• Standardizing schema formats
+• Joining customer, order, and product data
+
+---
+
+### Gold Layer – Analytical Data
+
+• Data is optimized for analytics and reporting
+• Aggregated and structured tables are created
+• Used directly by BI tools
+
+---
+
+# Data Modeling Approach
+
+The analytical layer uses a **Star Schema data model**, which is commonly used in analytical data warehouses.
+
+### Fact Table
+
+The central **fact table** contains transactional data such as:
+
+• Order transactions
+• Payment amounts
+• Order quantities
+
+Example Fact Table:
+
+**Fact_Orders**
+
+Measures:
+
+• Order value
+• Payment amount
+• Quantity ordered
+
+---
+
+### Dimension Tables
+
+Dimension tables provide descriptive attributes for analytical queries.
+
+Examples include:
+
+**Dim_Customers**
+Customer details and location information
+
+**Dim_Products**
+Product categories and product details
+
+**Dim_Sellers**
+Seller information and seller location
+
+**Dim_Date**
+Date attributes used for time-based analysis
+
+---
+
+### Benefits of Star Schema
+
+• Faster analytical queries
+• Simplified joins
+• Optimized for BI tools and dashboards
+
+---
+
+# Parameterized Pipeline
+
+The ingestion pipelines are implemented as **parameterized pipelines**.
+
+Parameters used include:
+
+• Dataset name
+• Source file path
+• Target storage path
+• Table name
+
+Benefits:
+
+• Reduces pipeline duplication
+• Improves scalability
+• Simplifies onboarding of new datasets
+
+---
+
+# Metadata-Driven Pipeline
+
+The pipeline uses a **metadata-driven design** to dynamically process datasets.
+
+Metadata information such as:
+
+• Dataset name
+• Source location
+• File format
+• Target table
+
+is stored in the configuration file:
+
+`dataForEachInput.json`
+
+The pipeline reads this metadata and dynamically processes datasets.
+
+Advantages include:
+
+• Centralized configuration
+• Dynamic pipeline execution
+• Easy integration of new datasets
+
+---
+
+# Slowly Changing Dimensions (SCD)
+
+The project incorporates **Slowly Changing Dimension (SCD)** concepts for handling changes in dimension data.
+
+This allows the system to track historical changes in attributes such as:
+
+• Customer details
+• Product information
+• Seller attributes
+
+By maintaining historical records, analysts can perform **trend analysis and historical reporting**.
 
 ---
 
 # Tech Stack
 
-| Technology                   | Purpose                                           |
-| ---------------------------- | ------------------------------------------------- |
-| Azure Data Factory           | Data ingestion and pipeline orchestration         |
-| Azure Data Lake Storage Gen2 | Scalable cloud storage for raw and processed data |
-| Azure Databricks             | Distributed data processing                       |
-| PySpark                      | Data transformation and processing                |
-| MongoDB                      | NoSQL data enrichment                             |
-| Azure Synapse Analytics      | Analytical querying and data warehousing          |
-| SQL                          | Data analysis queries                             |
-| Power BI / Tableau / Fabric  | Data visualization                                |
+| Technology                   | Purpose                     |
+| ---------------------------- | --------------------------- |
+| Azure Data Factory           | Data ingestion pipelines    |
+| Azure Data Lake Storage Gen2 | Cloud data lake storage     |
+| Azure Databricks             | Distributed data processing |
+| PySpark                      | Data transformation         |
+| MongoDB                      | NoSQL data enrichment       |
+| Azure Synapse Analytics      | Data warehouse analytics    |
+| SQL                          | Analytical queries          |
+| Power BI / Tableau / Fabric  | Data visualization          |
 
 ---
 
@@ -179,33 +313,25 @@ OlistE-commerceproject
 │       ├── olist_sellers_dataset.csv
 │       └── product_category_name_translation.csv
 │
-├── notebooks
-│   ├── Adls to databricks.ipynb
-│   └── DataIngestionToDB.ipynb
-│
-├── sql
-│   └── sql code.txt
-│
-├── Olist_datadb
-│   └── Dataingestiontosql.ipynb
-│
-├── images
-│   └── architecture.png
-│
+├── DataIngestionToDB.ipynb
+├── Databricks Tranformation.html
+├── sql code.txt
+├── dataForEachInput.json
+├── Architecture Diagram.png
 └── README.md
 ```
 
 ---
 
-# Key Data Engineering Concepts Demonstrated
+# Key Data Engineering Practices Implemented
 
-• End-to-end cloud data pipeline design
-• Data Lake architecture
-• Distributed data processing with Spark
-• ETL / ELT pipeline implementation
-• SQL-based analytical querying
-• Integration with NoSQL databases
-• Data visualization and BI integration
+• Medallion architecture (Bronze / Silver / Gold)
+• Star schema analytical data modeling
+• Parameterized ingestion pipelines
+• Metadata-driven pipeline design
+• Distributed data processing using PySpark
+• Hybrid SQL and NoSQL data integration
+• Cloud-based scalable data lake architecture
 
 ---
 
@@ -214,5 +340,3 @@ OlistE-commerceproject
 **Aman Patel**
 B.Tech IT — IIIT Vadodara
 Aspiring Data Engineer
-
----
