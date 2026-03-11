@@ -339,4 +339,3 @@ OlistE-commerceproject
 
 **Aman Patel**
 B.Tech IT — IIIT Vadodara
-Aspiring Data Engineer
