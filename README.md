@@ -35,8 +35,7 @@ The pipeline demonstrates how raw operational data can be transformed into **dec
 # Architecture Diagram
 
 The following diagram illustrates the **end-to-end data pipeline architecture** used in this project.
-
-![Architecture Diagram](images/architecture.png)
+![Architecture Diagram](Architecture%20Diagram.png)
 
 ---
 
